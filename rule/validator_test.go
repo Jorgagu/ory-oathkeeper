@@ -169,3 +169,32 @@ func TestValidateRule(t *testing.T) {
 		})
 	}
 }
+
+func TestAllowEmptyRules(t *testing.T) {
+	conf := internal.NewConfigurationWithDefaults()
+	conf.SetForTest(t, configuration.AllowEmptyRules, true)
+
+	r := internal.NewRegistry(conf)
+	v := NewValidatorDefault(r)
+
+	t.Run("case=allow empty rules", func(t *testing.T) {
+		rule := &Rule{
+			Match:    &Match{URL: "https://www.ory.sh", Methods: []string{"GET"}},
+			Upstream: Upstream{URL: "https://www.ory.sh"},
+		}
+		err := v.Validate(rule)
+		assert.NoError(t, err)
+	})
+
+	conf.SetForTest(t, configuration.AllowEmptyRules, false)
+
+	t.Run("case=disallow empty rules", func(t *testing.T) {
+		rule := &Rule{
+			Match:    &Match{URL: "https://www.ory.sh", Methods: []string{"GET"}},
+			Upstream: Upstream{URL: "https://www.ory.sh"},
+		}
+		err := v.Validate(rule)
+		assert.Error(t, err)
+		assert.Contains(t, err.Error(), "Value of \"authenticators\" must be set and can not be an empty array.")
+	})
+}

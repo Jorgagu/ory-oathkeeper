@@ -21,6 +21,8 @@ type validatorRegistry interface {
 	authz.Registry
 	mutate.Registry
 	pe.Registry
+
+	AllowEmptyRules() bool
 }
 
 type Validator interface {
@@ -120,16 +122,18 @@ func (v *ValidatorDefault) Validate(r *Rule) error {
 		return errors.WithStack(herodot.ErrInternalServerError.WithReasonf(`Value "%s" of "upstream.url" is not a valid url: %s`, r.Upstream.URL, err))
 	}
 
-	if err := v.validateAuthenticators(r); err != nil {
-		return err
-	}
+	if !v.r.AllowEmptyRules() {
+		if err := v.validateAuthenticators(r); err != nil {
+			return err
+		}
 
-	if err := v.validateAuthorizer(r); err != nil {
-		return err
-	}
+		if err := v.validateAuthorizer(r); err != nil {
+			return err
+		}
 
-	if err := v.validateMutators(r); err != nil {
-		return err
+		if err := v.validateMutators(r); err != nil {
+			return err
+		}
 	}
 
 	if err := v.validateErrorHandlers(r); err != nil {

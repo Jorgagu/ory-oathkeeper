@@ -453,3 +453,10 @@ func (v *KoanfProvider) TLSConfig(daemon string) *TLSConfig {
 	}
 	return c
 }
+
+// Add a new configuration flag to allow empty rules
+const AllowEmptyRules = "allow-empty-rules"
+
+func (v *KoanfProvider) AllowEmptyRules() bool {
+	return v.source.Bool(AllowEmptyRules)
+}

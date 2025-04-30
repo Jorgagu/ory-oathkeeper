@@ -82,6 +82,10 @@ type Provider interface {
 	SetForTest(t testing.TB, key string, value interface{})
 }
 
+func (p Provider) AllowEmptyRules() bool {
+	panic("unimplemented")
+}
+
 type ProviderErrorHandlers interface {
 	ErrorHandlerConfig(id string, override json.RawMessage, dest interface{}) error
 	ErrorHandlerIsEnabled(id string) bool

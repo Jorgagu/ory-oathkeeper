@@ -65,6 +65,12 @@ type RegistryMemory struct {
 	errors         map[string]pe.Handler
 }
 
+// AllowEmptyRules implements the rule.validatorRegistry interface.
+func (r *RegistryMemory) AllowEmptyRules() bool {
+	// Replace with a valid method or property from the configuration.Provider interface
+	return false // Default behavior if AllowEmptyRules is not implemented
+}
+
 func (r *RegistryMemory) Init() {
 	_ = r.Tracer() // make sure tracer is initialized
 	if err := r.RuleFetcher().Watch(context.Background()); err != nil {
