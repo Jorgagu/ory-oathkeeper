@@ -80,6 +80,8 @@ type Provider interface {
 	TLSConfig(daemon string) *TLSConfig
 
 	SetForTest(t testing.TB, key string, value interface{})
+
+	AllowEmptyRules() bool
 }
 
 type ProviderErrorHandlers interface {

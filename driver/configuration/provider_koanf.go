@@ -453,3 +453,7 @@ func (v *KoanfProvider) TLSConfig(daemon string) *TLSConfig {
 	}
 	return c
 }
+
+func (v *KoanfProvider) AllowEmptyRules() bool {
+	return v.source.BoolF(AllowEmptyRules, false)
+}

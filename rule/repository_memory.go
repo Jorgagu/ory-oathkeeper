@@ -23,6 +23,7 @@ var _ Repository = new(RepositoryMemory)
 type repositoryMemoryRegistry interface {
 	RuleValidator() Validator
 	x.RegistryLogger
+	Configuration() configuration.Provider
 }
 
 type RepositoryMemory struct {

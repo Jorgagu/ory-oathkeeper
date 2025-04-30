@@ -25,6 +25,7 @@ const (
 	PrometheusServeCollapseRequestPaths Key = "serve.prometheus.collapse_request_paths"
 	AccessRuleRepositories              Key = "access_rules.repositories"
 	AccessRuleMatchingStrategy          Key = "access_rules.matching_strategy"
+	AllowEmptyRules                     Key = "allow_empty_rules"
 )
 
 // Authorizers
